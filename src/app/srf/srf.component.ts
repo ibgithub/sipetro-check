@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
-import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 @Component({
   selector: 'app-srf',
@@ -9,7 +7,6 @@ import { DaterangepickerComponent, DaterangepickerDirective } from 'ngx-daterang
 })
 export class SrfComponent implements OnInit {
 
-  selected: {startDate: moment.Moment, endDate: moment.Moment};
 
   constructor() { }
 
