@@ -1,0 +1,21 @@
+.srf {
+    display: flex;
+    flex-direction: row;
+}
+.srf-field {
+    margin-right: 15px !important;
+}
+.cta {
+    background: #7700FF;
+    border: none;
+    color: white;
+
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 1em;
+    cursor: pointer;
+    font-family: 'Montserrat';
+}
+table {
+    width: 100%;
+}

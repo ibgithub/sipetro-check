@@ -10,7 +10,9 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { HomeComponent } from './home/home.component';
 import { SrfComponent } from './srf/srf.component';
- 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularMaterialModule } from './angular-material.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,13 +20,15 @@ import { SrfComponent } from './srf/srf.component';
     AboutComponent,
     ContactComponent,
     HomeComponent,
-    SrfComponent
+    SrfComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    AngularMaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
