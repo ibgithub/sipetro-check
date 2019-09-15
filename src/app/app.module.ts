@@ -12,6 +12,8 @@ import { HomeComponent } from './home/home.component';
 import { SrfComponent } from './srf/srf.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { AngularMaterialModule } from './angular-material.module';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
+    NgxDaterangepickerMd.forRoot(),
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

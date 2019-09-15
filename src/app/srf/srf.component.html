@@ -14,15 +14,16 @@
                 </select>
             </mat-form-field>
         </div>
-        <div class="srf-field">
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Choose a date" [formControl]="date">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+        <div class="srf-field-date">
+            <mat-form-field class="srf-field-date">
+                <input matInput placeholder="Choose a date" type="text" ngxDaterangepickerMd [(ngModel)]="selected" class="form-control" 
+                    [locale]="{applyLabel: 'Apply', format: 'DD-MMM-YYYY'}" startKey="start" endKey="end" 
+                    [ngModelOptions]="{standalone: true}"
+                />
             </mat-form-field>
         </div>
     </div>
-    <input type="submit" value="Send message" class="cta">
+    <input type="submit" value="Submit" class="cta">
 </form>
 
 
