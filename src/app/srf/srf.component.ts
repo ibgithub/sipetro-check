@@ -33,6 +33,7 @@ export class SrfComponent implements OnInit {
   srfs: Object;
   displayedColumns: string[] = ['serverName', 'fileName', 'fileSize', 'lastModified'];
   selected: {start: _moment.Moment, end: _moment.Moment};
+  servers = 'ALL';
 
   constructor(private data: DataService, private formBuilder: FormBuilder) {
     this.messageForm = this.formBuilder.group({
@@ -47,6 +48,10 @@ export class SrfComponent implements OnInit {
   onSubmit() {
     console.log(this.selected);
     if (this.selected.start) {
+      const start = this.selected.start.format('YYYYMMDD');
+      const end = this.selected.end.format('YYYYMMDD');
+
+      alert(start + end + this.servers);
       this.srfs = ELEMENT_DATA;
       // this.data.getSrf().subscribe(data => {
       //   this.srfs = data

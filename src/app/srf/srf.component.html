@@ -5,19 +5,19 @@
         <div class="srf-field">
             <mat-form-field>
                 <mat-label>Servers</mat-label>
-                <select matNativeControl>
-                    <option value="ALL">All Servers</option>
-                    <option value="10.212.115.5">Koperbi Primary</option>
-                    <option value="10.212.115.6">Koperbi Secondary</option>
-                    <option value="10.227.115.8">DC Colo Primary</option>
-                    <option value="10.227.115.9">DC Colo Secondary</option>
-                </select>
+                <mat-select matNativeControl  [(value)]="servers">
+                    <mat-option value="ALL">All Servers</mat-option>
+                    <mat-option value="10.212.115.5">Koperbi Primary</mat-option>
+                    <mat-option value="10.212.115.6">Koperbi Secondary</mat-option>
+                    <mat-option value="10.227.115.8">DC Colo Primary</mat-option>
+                    <mat-option value="10.227.115.9">DC Colo Secondary</mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
         <div class="srf-field-date">
             <mat-form-field class="srf-field-date">
                 <input matInput placeholder="Choose a date" type="text" ngxDaterangepickerMd [(ngModel)]="selected" class="form-control" 
-                    [locale]="{applyLabel: 'Apply', format: 'DD-MMM-YYYY'}" startKey="start" endKey="end" 
+                    [locale]="{applyLabel: 'Apply', format: 'DD MMMM YYYY'}" startKey="start" endKey="end" 
                     [ngModelOptions]="{standalone: true}"
                 />
             </mat-form-field>

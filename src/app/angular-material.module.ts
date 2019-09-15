@@ -6,6 +6,7 @@ import {
    MatInputModule,
    MatTableModule,
    MatDividerModule,
+   MatSelectModule,
 } from '@angular/material';
 
 @NgModule({
@@ -16,6 +17,7 @@ import {
       MatInputModule,
       MatTableModule,
       MatDividerModule,
+      MatSelectModule,
    ],
    exports: [
       MatDatepickerModule,
@@ -24,6 +26,7 @@ import {
       MatInputModule,
       MatTableModule,
       MatDividerModule,
+      MatSelectModule,
    ]
 })
 
