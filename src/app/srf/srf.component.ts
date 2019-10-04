@@ -5,17 +5,13 @@ import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { DataService} from '../data.service';
 
-import * as _moment from 'moment';
+import * as moment from 'moment';
+import { DataSource } from '@angular/cdk/table';
+import { Observable } from 'rxjs';
+import { Srf } from '../models/srf.model';
 
 // [{"date":"20180604","serverName":"Koperbi Primary","fileName":"20180604.1.srf.gz","fileSize":"30 MB","lastModified":"04/06/2018 16:35:01"}]
 // [{"date":"20190913","serverName":"Koperbi Primary","fileName":"NOT_EXIST","fileSize":"NOT_EXIST","lastModified":"NOT_EXIST"}]
-export interface Srf {
-  date: string;
-  serverName: string;
-  fileName: string;
-  fileSize: string;
-  lastModified: string;
-}
 
 const ELEMENT_DATA: Srf[] = [
   {date: '20180604', serverName: 'Koperbi Primary', fileName: '20180604.1.srf.gz', fileSize: '30 MB', lastModified: '04/06/2018 16:35:01'},
@@ -30,11 +26,12 @@ const ELEMENT_DATA: Srf[] = [
 export class SrfComponent implements OnInit {
   messageForm: FormGroup;
   submitted = false;
-  srfs: Object;
-  displayedColumns: string[] = ['serverName', 'fileName', 'fileSize', 'lastModified'];
-  selected: {start: _moment.Moment, end: _moment.Moment};
+  // srfs: Srf[] = []; 
+  srfs: Srf[] = []; 
+  displayedColumns: string[] = ['serverName', 'date', 'fileName', 'fileSize', 'lastModified'];
+  selected: {start: moment.Moment, end: moment.Moment};
   servers = 'ALL';
-
+  
   constructor(private data: DataService, private formBuilder: FormBuilder) {
     this.messageForm = this.formBuilder.group({
       
@@ -46,21 +43,41 @@ export class SrfComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.selected);
-    if (this.selected.start) {
-      const start = this.selected.start.format('YYYYMMDD');
-      const end = this.selected.end.format('YYYYMMDD');
-
-      alert(start + end + this.servers);
-      this.srfs = ELEMENT_DATA;
-      // this.data.getSrf().subscribe(data => {
-      //   this.srfs = data
-      //   console.log(this.srfs)
-      // })
-      this.submitted = true;
-    } else {
-      alert('Please choose date!')
+    // console.log(this.selected);
+    if (!this.selected.start) {
+      this.selected.start = moment(); 
     }
-    
+    if (!this.selected.end) {
+      this.selected.end = moment(); 
+    }
+    // console.log(this.selected);
+    const start = this.selected.start.format('YYYYMMDD');
+    const end = this.selected.end.format('YYYYMMDD');
+
+    // alert(start + end + this.servers);
+
+    if (this.servers === 'ALL') {
+      this.data.getSrfs('10.212.115.5', start, end).subscribe((data: any) => {
+        this.srfs = data;
+        this.data.getSrfs('10.212.115.6', start, end).subscribe((data: any) => {
+          this.srfs = this.srfs.concat(data);
+          this.data.getSrfs('10.227.115.8', start, end).subscribe((data: any) => {
+            this.srfs = this.srfs.concat(data);
+            this.data.getSrfs('10.227.115.9', start, end).subscribe((data: any) => {
+              this.srfs = this.srfs.concat(data);
+            });
+          });  
+        });
+      });
+    } else {
+      let datas: Srf[] = []; 
+      this.data.getSrfs(this.servers, start, end).subscribe((data: any) => {
+        this.srfs = data;
+        datas = data;
+      });
+    }
+    this.submitted = true;
   }
+  
 }
+

@@ -18,7 +18,7 @@
             <mat-form-field class="srf-field-date">
                 <input matInput placeholder="Choose a date" type="text" ngxDaterangepickerMd [(ngModel)]="selected" class="form-control" 
                     [locale]="{applyLabel: 'Apply', format: 'DD MMMM YYYY'}" startKey="start" endKey="end" 
-                    [ngModelOptions]="{standalone: true}"
+                    [showDropdowns]="true" [ngModelOptions]="{standalone: true}"
                 />
             </mat-form-field>
         </div>
@@ -33,6 +33,10 @@
         <ng-container matColumnDef="serverName">
             <th mat-header-cell *matHeaderCellDef> Server Name </th>
             <td mat-cell *matCellDef="let srf"> {{srf.serverName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Date </th>
+            <td mat-cell *matCellDef="let srf"> {{srf.date}} </td>
         </ng-container>
         <ng-container matColumnDef="fileName">
             <th mat-header-cell *matHeaderCellDef> File Name </th>
