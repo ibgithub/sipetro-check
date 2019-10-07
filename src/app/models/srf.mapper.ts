@@ -4,14 +4,14 @@ import { Srf } from './srf.model';
 export class SrfMapper {
     public static toDto (srf: Srf): SrfDto {
         return new SrfDto(srf.date, srf.serverName, srf.fileName, srf.fileSize, 
-            srf.lastModifiedDate === 'NOT_EXIST' ? 'NOT_EXIST' : srf.lastModifiedDate + ' ' + srf.lastModifiedTime);
+            srf.lastModifiedDate === srf.lastModifiedTime ? srf.lastModifiedDate : srf.lastModifiedDate + ' ' + srf.lastModifiedTime);
     }
   
     public static toModel (srfDto: SrfDto): Srf {
 
         return new Srf(srfDto.date, srfDto.serverName, srfDto.fileName, srfDto.fileSize, 
-            srfDto.lastModified === 'NOT_EXIST' ? 'NOT_EXIST' : srfDto.lastModified.substring(0,11), 
-            srfDto.lastModified === 'NOT_EXIST' ? 'NOT_EXIST' : srfDto.lastModified.substring(11));
+            srfDto.lastModified.length < 11 ? srfDto.lastModified : srfDto.lastModified.substring(0,11), 
+            srfDto.lastModified.length < 11 ? srfDto.lastModified : srfDto.lastModified.substring(11));
     }
 
     public static toDtos (srfs: Srf[]): SrfDto[] {

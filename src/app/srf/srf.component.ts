@@ -14,12 +14,15 @@ import { MatSort, MatTableDataSource } from '@angular/material';
 import { SrfDto } from '../models/srf.dto';
 import { SrfMapper } from '../models/srf.mapper';
 
-// [{"date":"20180604","serverName":"Koperbi Primary","fileName":"20180604.1.srf.gz","fileSize":"30 MB","lastModified":"04/06/2018 16:35:01"}]
-// [{"date":"20190913","serverName":"Koperbi Primary","fileName":"NOT_EXIST","fileSize":"NOT_EXIST","lastModified":"NOT_EXIST"}]
-
 const ELEMENT_DATA: Srf[] = [
   {date: '20180604', serverName: 'Koperbi Primary', fileName: '20180604.1.srf.gz', fileSize: '30 MB', lastModifiedDate: '04/06/2018', lastModifiedTime: '16:35:01'},
   {date: '20190913', serverName: 'Koperbi Primary', fileName: 'NOT_EXIST', fileSize: 'NOT_EXIST', lastModifiedDate: 'NOT_EXIST', lastModifiedTime: 'NOT_EXIST'},
+  {date: '20190925', serverName: 'Koperbi Secondary', fileName: '20190925.1.srf.gz', fileSize: '88 MB', lastModifiedDate: '25/09/2019', lastModifiedTime: '16:35:01'},
+  {date: '20190926', serverName: 'Koperbi Secondary', fileName: '20190926.1.srf.gz', fileSize: '96 MB', lastModifiedDate: '26/09/2019', lastModifiedTime: '16:35:01'},
+  {date: '20190927', serverName: 'DC Colo Primary', fileName: '20190927.1.srf.gz', fileSize: '76 MB', lastModifiedDate: '27/09/2019', lastModifiedTime: '16:35:01'},
+  {date: '20190928', serverName: 'DC Colo Primary', fileName: 'HOLIDAY', fileSize: 'HOLIDAY', lastModifiedDate: 'HOLIDAY', lastModifiedTime: 'HOLIDAY'},
+  {date: '20190929', serverName: 'DC Colo Secondary', fileName: 'HOLIDAY', fileSize: 'HOLIDAY', lastModifiedDate: 'HOLIDAY', lastModifiedTime: 'HOLIDAY'},
+  {date: '20190930', serverName: 'DC Colo Secondary', fileName: '20190930.1.srf.gz', fileSize: '84 MB', lastModifiedDate: '30/09/2019', lastModifiedTime: '16:35:01'}
 ];
 
 @Component({
@@ -49,46 +52,50 @@ export class SrfComponent implements OnInit {
   }
 
   onSubmit() {
-    // console.log(this.selected);
-    if (!this.selected.start) {
-      this.selected.start = moment(); 
-    }
-    if (!this.selected.end) {
-      this.selected.end = moment(); 
-    }
-    // console.log(this.selected);
-    const start = this.selected.start.format('YYYYMMDD');
-    const end = this.selected.end.format('YYYYMMDD');
+    // // console.log(this.selected);
+    // if (!this.selected.start) {
+    //   this.selected.start = moment(); 
+    // }
+    // if (!this.selected.end) {
+    //   this.selected.end = moment(); 
+    // }
+    // // console.log(this.selected);
+    // const start = this.selected.start.format('YYYYMMDD');
+    // const end = this.selected.end.format('YYYYMMDD');
 
-    if (this.servers === 'ALL') {    
-      try {
-        this.dataService.getSrfs('10.212.115.5', start, end).subscribe((data: any) => {
-          if (data) {
-            this.srfDtos = data;
-          }
-          this.dataService.getSrfs('10.212.115.6', start, end).subscribe((data: any) => {
-            this.srfConcat(data);
-            this.dataService.getSrfs('10.227.115.8', start, end).subscribe((data: any) => {
-              this.srfConcat(data);
-              this.dataService.getSrfs('10.227.115.9', start, end).subscribe((data: any) => {
-                this.srfConcat(data);
-                this.intoSrfs();
-              });
-            });  
-          });
-          (error: HttpErrorResponse) => {
-            console.log(error);
-          }
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      this.dataService.getSrfs(this.servers, start, end).subscribe((data: any) => {
-        this.srfDtos = data;
-        this.intoSrfs();
-      });
-    }
+    // if (this.servers === 'ALL') {    
+    //   try {
+    //     this.dataService.getSrfs('10.212.115.5', start, end).subscribe((data: any) => {
+    //       if (data) {
+    //         this.srfDtos = data;
+    //       }
+    //       this.dataService.getSrfs('10.212.115.6', start, end).subscribe((data: any) => {
+    //         this.srfConcat(data);
+    //         this.dataService.getSrfs('10.227.115.8', start, end).subscribe((data: any) => {
+    //           this.srfConcat(data);
+    //           this.dataService.getSrfs('10.227.115.9', start, end).subscribe((data: any) => {
+    //             this.srfConcat(data);
+    //             this.intoSrfs();
+    //           });
+    //         });  
+    //       });
+    //       (error: HttpErrorResponse) => {
+    //         console.log(error);
+    //       }
+    //     });
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // } else {
+    //   this.dataService.getSrfs(this.servers, start, end).subscribe((data: any) => {
+    //     this.srfDtos = data;
+    //     this.intoSrfs();
+    //   });
+    // }
+    this.srfs = ELEMENT_DATA;
+    this.dataSource = new MatTableDataSource<Srf>(this.srfs);
+    this.dataSource.sort = this.sort;
+    this.submitted = true;
   }
   
   private intoSrfs() {
