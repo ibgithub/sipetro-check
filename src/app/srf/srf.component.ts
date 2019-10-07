@@ -7,8 +7,9 @@ import { DataService} from '../data.service';
 
 import * as moment from 'moment';
 import { DataSource } from '@angular/cdk/table';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { Srf } from '../models/srf.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 // [{"date":"20180604","serverName":"Koperbi Primary","fileName":"20180604.1.srf.gz","fileSize":"30 MB","lastModified":"04/06/2018 16:35:01"}]
 // [{"date":"20190913","serverName":"Koperbi Primary","fileName":"NOT_EXIST","fileSize":"NOT_EXIST","lastModified":"NOT_EXIST"}]
@@ -54,21 +55,28 @@ export class SrfComponent implements OnInit {
     const start = this.selected.start.format('YYYYMMDD');
     const end = this.selected.end.format('YYYYMMDD');
 
-    // alert(start + end + this.servers);
-
-    if (this.servers === 'ALL') {
-      this.data.getSrfs('10.212.115.5', start, end).subscribe((data: any) => {
-        this.srfs = data;
-        this.data.getSrfs('10.212.115.6', start, end).subscribe((data: any) => {
-          this.srfs = this.srfs.concat(data);
-          this.data.getSrfs('10.227.115.8', start, end).subscribe((data: any) => {
-            this.srfs = this.srfs.concat(data);
-            this.data.getSrfs('10.227.115.9', start, end).subscribe((data: any) => {
-              this.srfs = this.srfs.concat(data);
-            });
-          });  
+    if (this.servers === 'ALL') {    
+      try {
+        this.data.getSrfs('10.212.115.5', start, end).subscribe((data: any) => {
+          if (data) {
+            this.srfs = data;  
+          }
+          this.data.getSrfs('10.212.115.6', start, end).subscribe((data: any) => {
+            this.srfConcat(data);
+            this.data.getSrfs('10.227.115.8', start, end).subscribe((data: any) => {
+              this.srfConcat(data);
+              this.data.getSrfs('10.227.115.9', start, end).subscribe((data: any) => {
+                this.srfConcat(data);
+              });
+            });  
+          });
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
         });
-      });
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       let datas: Srf[] = []; 
       this.data.getSrfs(this.servers, start, end).subscribe((data: any) => {
@@ -79,5 +87,15 @@ export class SrfComponent implements OnInit {
     this.submitted = true;
   }
   
+  private srfConcat(data: any) {
+    if (data) {
+      if (this.srfs) {
+        this.srfs = this.srfs.concat(data);
+      }
+      else {
+        this.srfs = data;
+      }
+    }
+  }
 }
 
