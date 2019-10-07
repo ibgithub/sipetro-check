@@ -7,6 +7,7 @@ import {
    MatTableModule,
    MatDividerModule,
    MatSelectModule,
+   MatSortModule,
 } from '@angular/material';
 
 @NgModule({
@@ -16,6 +17,7 @@ import {
       MatFormFieldModule,
       MatInputModule,
       MatTableModule,
+      MatSortModule,
       MatDividerModule,
       MatSelectModule,
    ],
@@ -25,6 +27,7 @@ import {
       MatFormFieldModule,
       MatInputModule,
       MatTableModule,
+      MatSortModule,
       MatDividerModule,
       MatSelectModule,
    ]
