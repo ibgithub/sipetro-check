@@ -3,13 +3,15 @@ export class Srf {
     public serverName: string;
     public fileName: string;
     public fileSize: string;
-    public lastModified: string;
-    constructor(date: string, serverName: string, fileName: string, fileSize: string, lastModified: string) {
+    public lastModifiedDate: string;
+    public lastModifiedTime: string;
+    constructor(date: string, serverName: string, fileName: string, fileSize: string, lastModifiedDate: string, lastModifiedTime: string) {
         this.date = date;
         this.serverName = serverName;
         this.fileName = fileName;
         this.fileSize = fileSize;
-        this.lastModified = lastModified;
+        this.lastModifiedDate = lastModifiedDate;
+        this.lastModifiedTime = lastModifiedTime;
     }
 }
   

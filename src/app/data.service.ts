@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { Srf } from './models/srf.model';
 import { retry, catchError, map, finalize } from 'rxjs/operators';
+import { SrfDto } from './models/srf.dto';
+import { SrfMapper } from './models/srf.mapper';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +17,15 @@ export class DataService {
     return this.http.get('https://reqres.in/api/users');
   }
   
-  getSrfs(ip: string, start: string, end: string): Observable<Srf[]> {
+  getSrfs(ip: string, start: string, end: string): Observable<SrfDto[]> {
     const urlIp = 'http://' + ip + ':7776/check-srfs?start=' + start + '&end=' + end;
-    const res = this.http.get<Srf[]>(urlIp).pipe(
+    return this.http.get<SrfDto[]>(urlIp).pipe(
         retry(1),
         catchError(this.handleError),
-        finalize(() => console.log("second finalize() block executed"))
+        finalize(() => console.log("finalize() block executed"))
     )
-    console.log('res=' + res);
-    return res;
   }
-  
+
   handleError(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
